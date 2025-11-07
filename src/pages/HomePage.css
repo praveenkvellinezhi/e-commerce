@@ -155,3 +155,25 @@
   height: 34px;
   margin-top: 1px;
 }
+/* Add this at the very end of HomePage.css */
+
+.add-to-cart-button,
+.button-primary {
+  background-color: rgb(6, 132, 35);
+  border: 1px solid rgb(8, 79, 45);
+  border-radius: 8px;
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  text-align: center;
+}
+
+.add-to-cart-button:hover,
+.button-primary:hover {
+  background-color: #f7ca00;
+}
+
+.add-to-cart-button:active {
+  background-color: #f0b800;
+}
