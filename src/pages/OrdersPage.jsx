@@ -1,10 +1,13 @@
 import React from 'react'
-import "./header.css"
-import "./OrdersPage.css"
+
+import {Header} from '../Components/Header'
 export default function OrdersPage() {
   return (
     <div>
     <title>Orders</title>
+
+
+    <Header/>
 
          <div class="header">
       <div class="left-section">
