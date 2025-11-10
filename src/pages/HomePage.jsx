@@ -38,7 +38,7 @@ then((response)=> {
         <div className="products-grid">
           {products.map((product)=>{
             return (
-              <>
+              
                <div key={product.id} className="product-container">
             <div className="product-image-container">
               <img
@@ -86,7 +86,7 @@ then((response)=> {
             <button className="add-to-cart-button button-primary">
               Add to Cart
             </button>
-          </div></>
+          </div>
               
             )
 

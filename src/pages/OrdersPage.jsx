@@ -1,13 +1,13 @@
 import React from 'react'
 
 import {Header} from '../Components/Header'
-export default function OrdersPage() {
+export default function OrdersPage({cart}) {
   return (
     <div>
     <title>Orders</title>
 
 
-    <Header/>
+    <Header cart={cart}/>
 
          <div className="header">
       <div className="left-section">
