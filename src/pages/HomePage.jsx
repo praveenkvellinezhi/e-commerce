@@ -3,6 +3,7 @@ import React from "react";
 import { useEffect,useState } from 'react';
 import {Header} from "../Components/Header"
 import './HomePage.css'
+import { formatMoney } from '../utils/money';
 import { BASE_URL } from '../Services/BaseUrl';
 
 
@@ -58,7 +59,7 @@ then((response)=> {
               <div className="product-rating-count link-primary">{product.rating.count / 100}</div>
             </div>
 
-            <div className="product-price">{(product.priceCents / 100).toFixed(2)}</div>
+            <div className="product-price">{formatMoney(product.priceCents)}</div>
 
             <div className="product-quantity-container">
               <select>
