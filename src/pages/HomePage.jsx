@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React from "react";
 import {Header} from "../Components/Header"
 import './HomePage.css'
@@ -8,15 +9,12 @@ import {products} from "../starting-code/data/products"
 
 
 const HomePage = () => {
-fetch('http://localhost:3000/api/products').
+axios.get('http://localhost:3000/api/products').
 then((response)=> {
-   return response.json()
+   console.log(response.data);
+   
 
-  }).then((data)=> {
-    console.log(data);
-    
-  
-})
+  })
 
   return (
     <div>
