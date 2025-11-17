@@ -3,35 +3,26 @@ import axios from "axios";
 import "./Checkout.css";
 import "./checkout-header.css";
 import { BASE_URL } from "../../Services/BaseUrl";
-import  {Ordersummary} from "./Ordersummary";
+import { Ordersummary } from "./Ordersummary";
 import { PaymmentSummary } from "./PaymmentSummary";
 
 const Checkout = ({ cart }) => {
   const [deliveryOptions, setDeliveryOptions] = useState([]);
-  const [paymentSummary,setPaymentSummary]=useState(null)
+  const [paymentSummary, setPaymentSummary] = useState(null);
 
   // Fetch delivery options
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/api/delivery-options`)
-      .then((response) => {
-        setDeliveryOptions(response.data);
-        
-      })
-      .catch((error) =>
-        console.error("Error fetching delivery options:", error)
-      );
-      
-       axios
-    .get(`${BASE_URL}/api/payment-summary`)
-    .then((response) => {
-      setPaymentSummary(response.data);
-              console.log(response.data);
+    const fetchcheckoutData = async () => {
+      let response = await axios.get(`${BASE_URL}/api/delivery-options`);
 
-    })
-    .catch((error) =>
-      console.error("Error fetching payment summary:", error)
-    );
+      setDeliveryOptions(response.data);
+
+      response = await axios.get(`${BASE_URL}/api/payment-summary`);
+
+      setPaymentSummary(response.data);
+    };
+
+    fetchcheckoutData();
   }, []);
 
   return (
@@ -61,10 +52,7 @@ const Checkout = ({ cart }) => {
           </div>
 
           <div className="checkout-header-right-section">
-            <img
-              src="images/icons/checkout-lock-icon.png"
-              alt="Lock Icon"
-            />
+            <img src="images/icons/checkout-lock-icon.png" alt="Lock Icon" />
           </div>
         </div>
       </div>
@@ -75,7 +63,7 @@ const Checkout = ({ cart }) => {
 
         <div className="checkout-grid">
           {/* Order Summary */}
-       <Ordersummary cart={cart} deliveryOptions={deliveryOptions}/>
+          <Ordersummary cart={cart} deliveryOptions={deliveryOptions} />
 
           {/* Payment Summary */}
           <PaymmentSummary paymentSummary={paymentSummary} />
