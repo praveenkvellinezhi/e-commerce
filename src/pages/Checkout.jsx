@@ -9,23 +9,23 @@ import dayjs from "dayjs";
 const Checkout = ({ cart }) => {
   const [deliveryOptions, setDeliveryOptions] = useState([]);
 
-  // ✅ Fetch delivery options from backend
+  // Fetch delivery options
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/api/delivery-options?expand=estimateDeliveryTime`)
+      .get(`${BASE_URL}/api/delivery-options`)
       .then((response) => {
         setDeliveryOptions(response.data);
       })
       .catch((error) =>
         console.error("Error fetching delivery options:", error)
       );
-  }, []); // dependency array prevents infinite loop
+  }, []);
 
   return (
     <div>
       <title>Checkout</title>
 
-      {/* ✅ Checkout Header */}
+      {/* Checkout Header */}
       <div className="checkout-header">
         <div className="header-content">
           <div className="checkout-header-left-section">
@@ -56,112 +56,114 @@ const Checkout = ({ cart }) => {
         </div>
       </div>
 
-      {/* ✅ Checkout Page */}
+      {/* Checkout Page */}
       <div className="checkout-page">
         <div className="page-title">Review your order</div>
 
         <div className="checkout-grid">
-          {/* ✅ Order Summary */}
+          {/* Order Summary */}
           <div className="order-summary">
-            {deliveryOptions.length > 0 && cart.map((cartItem) => {
-              const selectedDeliveryOption = deliveryOptions
-              .find((deliveryoption) =>{
+            {deliveryOptions.length > 0 &&
+              cart.map((cartItem) => {
+                const selectedDeliveryOption = deliveryOptions.find(
+                  (deliveryOption) => {
+                     return deliveryOption.id === cartItem.deliveryOptionId
 
+                });
 
-                return deliveryoption.id ===cartItem.deliveryOptionId;
-              }
-              );
+                const deliveryDate = dayjs()
+                  .add(selectedDeliveryOption?.deliveryDays || 0, "day")
+                  .format("dddd MMMM D");
 
-              return (
-                <div
-                  key={cartItem.productId}
-                  className="cart-item-container"
-                >
-                  <div className="delivery-date">
-                   Deliver Date:{dayjs(selectedDeliveryOption.estimatedDeliveryTimeMs).format('dddd MMMM D')}
-                  </div>
+                return (
+                  <div
+                    key={cartItem.productId}
+                    className="cart-item-container"
+                  >
+                    <div className="delivery-date">Deliver Date: {deliveryDate}</div>
 
-                  <div className="cart-item-details-grid">
-                    <img
-                      className="product-image"
-                      src="images/products/athletic-cotton-socks-6-pairs.jpg"
-                      alt={cartItem.product.name}
-                    />
+                    <div className="cart-item-details-grid">
+                      <img
+                        className="product-image"
+                        src="images/products/athletic-cotton-socks-6-pairs.jpg"
+                        alt={cartItem.product.name}
+                      />
 
-                    <div className="cart-item-details">
-                      <div className="product-name">
-                        {cartItem.product.name}
-                      </div>
-                      <div className="product-price">
-                        {formatMoney(cartItem.product.priceCents)}
-                      </div>
-                      <div className="product-quantity">
-                        <span>
-                          Quantity:{" "}
-                          <span className="quantity-label">
-                            {cartItem.quantity || 1}
+                      <div className="cart-item-details">
+                        <div className="product-name">
+                          {cartItem.product.name}
+                        </div>
+                        <div className="product-price">
+                          {formatMoney(cartItem.product.priceCents)}
+                        </div>
+                        <div className="product-quantity">
+                          <span>
+                            Quantity:{" "}
+                            <span className="quantity-label">
+                              {cartItem.quantity || 1}
+                            </span>
                           </span>
-                        </span>
-                        <span className="update-quantity-link link-primary">
-                          Update
-                        </span>
-                        <span className="delete-quantity-link link-primary">
-                          Delete
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* ✅ Delivery Options */}
-                    <div className="delivery-options">
-                      <div className="delivery-options-title">
-                        Choose a delivery option:
+                          <span className="update-quantity-link link-primary">
+                            Update
+                          </span>
+                          <span className="delete-quantity-link link-primary">
+                            Delete
+                          </span>
+                        </div>
                       </div>
 
-                      {deliveryOptions.map((deliveryOption) => {
-                        let priceString = "FREE Shipping";
+                      {/* Delivery Options */}
+                      <div className="delivery-options">
+                        <div className="delivery-options-title">
+                          Choose a delivery option:
+                        </div>
 
-                        if (deliveryOption.priceCents > 0) {
-                          priceString = `${formatMoney(
-                            deliveryOption.priceCents
-                          )} - Shipping`;
-                        }
+                        {deliveryOptions.map((deliveryOption) => {
+                          const optionDate = dayjs()
+                            .add(deliveryOption.deliveryDays, "day")
+                            .format("dddd, MMMM D");
 
-                        return (
-                          <div
-                            key={deliveryOption.id}
-                            className="delivery-option"
-                          >
-                            <input
-                              type="radio"
-                              checked={
-                                deliveryOption.id ===
-                                cartItem.deliveryOptionId
-                              }
-                              className="delivery-option-input"
-                              name={`delivery-option-${cartItem.productId}`}
-                              readOnly
-                            />
-                            <div>
-                              <div className="delivery-option-date">
-                                {dayjs(
-                                  deliveryOption.estimatedDeliveryTimeMs
-                                ).format("dddd, MMMM D")}
-                              </div>
-                              <div className="delivery-option-price">
-                                {priceString}
+                          const priceString =
+                            deliveryOption.priceCents > 0
+                              ? `${formatMoney(
+                                  deliveryOption.priceCents
+                                )} - Shipping`
+                              : "FREE Shipping";
+
+                          return (
+                            <div
+                              key={deliveryOption.id}
+                              className="delivery-option"
+                            >
+                              <input
+                                type="radio"
+                                checked={
+                                  deliveryOption.id ===
+                                  cartItem.deliveryOptionId
+                                }
+                                className="delivery-option-input"
+                                name={`delivery-option-${cartItem.productId}`}
+                                readOnly
+                              />
+                              <div>
+                                <div className="delivery-option-date">
+                                  {optionDate}
+                                </div>
+                                <div className="delivery-option-price">
+                                  {priceString}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
 
-          {/* ✅ Payment Summary */}
+          {/* Payment Summary */}
           <div className="payment-summary">
             <div className="payment-summary-title">Payment Summary</div>
 
@@ -171,7 +173,7 @@ const Checkout = ({ cart }) => {
             </div>
 
             <div className="payment-summary-row">
-              <div>Shipping &amp; handling:</div>
+              <div>Shipping & handling:</div>
               <div className="payment-summary-money">$4.99</div>
             </div>
 
