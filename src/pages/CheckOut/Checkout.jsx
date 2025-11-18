@@ -66,7 +66,7 @@ const Checkout = ({ cart, loadCart }) => {
           <Ordersummary cart={cart} deliveryOptions={deliveryOptions} loadCart={loadCart} />
 
           {/* Payment Summary */}
-          <PaymmentSummary paymentSummary={paymentSummary} />
+          <PaymmentSummary paymentSummary={paymentSummary}  loadCart={loadCart} />
         </div>
       </div>
     </div>
