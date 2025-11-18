@@ -8,16 +8,18 @@ export default function Products({product,loadCart}) {
  const [quantity,setQuantity]= useState();
 
 
- const  addTocart=()=>{  async()=>{
-                   await axios.post(`${BASE_URL}/api/cart-items`,{
+ const  addTocart= async()=>{
+                  const response =  await axios.post(`${BASE_URL}/api/cart-items`,{
                       productId:product.id,
                       quantity:quantity
                     })
+                    console.log(response);
+                    
                    await loadCart();
 
                   }
 
- }
+ 
 
  const selectQuantity =(event)=>{
                      const quantitySelected= Number(event.target.value);

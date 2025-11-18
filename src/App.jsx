@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import OrdersPage from "./pages/OrdersPage";
 import TrackingPage from "./pages/TrackingPage";
 import { BASE_URL } from "./Services/BaseUrl";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 
 function App() {
@@ -13,6 +15,8 @@ function App() {
   
     const loadCart= async ()=>{
      const response = await axios.get(`${BASE_URL}/api/cart-items?expand=product`);
+     console.log(response);
+     
       setCart(response.data);
 
     };
@@ -31,6 +35,9 @@ function App() {
         <Route path="checkout" element={<Checkout cart={cart} loadCart={loadCart} />} />
         <Route path="orders" element={<OrdersPage cart={cart} />} />
         <Route path="tracking" element={<TrackingPage />} />
+        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/register" element={<RegisterPage/>}/>
+
       </Routes>
     </>
   );
