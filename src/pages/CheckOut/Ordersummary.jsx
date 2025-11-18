@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { formatMoney } from '../../utils/money';
 import { PaymmentSummary } from './PaymmentSummary';
 import { DeliveryOptions } from './DeliveryOptions';
-export function Ordersummary({cart,deliveryOptions}) {
+export function Ordersummary({cart,deliveryOptions,loadCart}) {
   return (
     <div>
         <div className="order-summary">
@@ -29,7 +29,7 @@ export function Ordersummary({cart,deliveryOptions}) {
                           <div className="cart-item-details-grid">
                             <img
                               className="product-image"
-                              src="images/products/athletic-cotton-socks-6-pairs.jpg"
+                              src={cartItem.product.image}
                               alt={cartItem.product.name}
                             />
       
@@ -57,7 +57,7 @@ export function Ordersummary({cart,deliveryOptions}) {
                             </div>
       
                             {/* Delivery Options */}
-                           <DeliveryOptions cartItem={cartItem} deliveryOptions={deliveryOptions} />
+                           <DeliveryOptions cartItem={cartItem} deliveryOptions={deliveryOptions} loadCart={loadCart} />
                           </div>
                         </div>
                       );

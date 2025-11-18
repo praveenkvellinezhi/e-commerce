@@ -6,7 +6,7 @@ import "./HomePage.css";
 import { BASE_URL } from "../../Services/BaseUrl";
 import { ProductsGrid } from "./ProductsGrid";
 
-const HomePage = ({ cart }) => {
+const HomePage = ({ cart ,loadCart}) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const HomePage = ({ cart }) => {
       <Header cart={cart} />
 
       <div className="home-page">
-        <ProductsGrid products={products} />
+        <ProductsGrid products={products} loadCart={loadCart}  />
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { BASE_URL } from "../../Services/BaseUrl";
 import { Ordersummary } from "./Ordersummary";
 import { PaymmentSummary } from "./PaymmentSummary";
 
-const Checkout = ({ cart }) => {
+const Checkout = ({ cart, loadCart }) => {
   const [deliveryOptions, setDeliveryOptions] = useState([]);
   const [paymentSummary, setPaymentSummary] = useState(null);
 
@@ -23,7 +23,7 @@ const Checkout = ({ cart }) => {
     };
 
     fetchcheckoutData();
-  }, []);
+  }, [cart]);
 
   return (
     <div>
@@ -63,7 +63,7 @@ const Checkout = ({ cart }) => {
 
         <div className="checkout-grid">
           {/* Order Summary */}
-          <Ordersummary cart={cart} deliveryOptions={deliveryOptions} />
+          <Ordersummary cart={cart} deliveryOptions={deliveryOptions} loadCart={loadCart} />
 
           {/* Payment Summary */}
           <PaymmentSummary paymentSummary={paymentSummary} />
